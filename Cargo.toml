@@ -1,0 +1,35 @@
+[package]
+name = "feishu-ws"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+license = "MIT OR Apache-2.0"
+description = "Receive Feishu / Lark events over the long connection (WebSocket), as raw JSON"
+repository = "https://github.com/sycamore792/feishu-ws"
+readme = "README.md"
+keywords = ["feishu", "lark", "websocket", "events", "bot"]
+categories = ["api-bindings", "network-programming"]
+
+[features]
+default = ["aws-lc-rs"]
+# The TLS crypto provider used when the process has not installed a default one.
+aws-lc-rs = ["rustls/aws_lc_rs"]
+ring = ["rustls/ring"]
+
+[dependencies]
+prost = "0.14"
+reqwest = { version = "0.13", default-features = false, features = ["rustls-no-provider", "json"] }
+rustls = { version = "0.23", default-features = false, features = ["std", "tls12", "logging"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "net", "sync", "time"] }
+tokio-tungstenite = { version = "0.30", default-features = false, features = ["connect", "rustls-tls-webpki-roots"] }
+futures-util = { version = "0.3", default-features = false, features = ["sink", "std"] }
+tracing = "0.1"
+url = "2"
+webpki-roots = "1"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+wiremock = "0.6"
